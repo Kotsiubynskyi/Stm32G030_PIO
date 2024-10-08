@@ -1,5 +1,5 @@
 #include "i2c.h"
-#include <stdint.h>
+#include "system.h"
 
 void I2C2_Init() {
   I2C_Manual_Reset();
@@ -45,6 +45,7 @@ void I2C_Manual_Reset(void) {
   }
 }
 
+uint32_t timeout = 1000;
 void sendData(I2C_TypeDef *I2C, uint32_t i2cAddress, uint8_t *data,
               uint8_t size) {
   while (I2C->CR2 & I2C_ISR_BUSY)
@@ -70,16 +71,27 @@ void sendData(I2C_TypeDef *I2C, uint32_t i2cAddress, uint8_t *data,
   while (!(I2C->ISR & I2C_ISR_TXE))
     ;
 
+  uint32_t wait = timeout;
   for (uint8_t i = 0; i < size; i++) {
-    volatile uint8_t b = data[i];
-    I2C->TXDR = b;
-
+    I2C->TXDR = data[i];
     while (!(I2C->ISR & I2C_ISR_TXE))
-      ;
+    {
+      delay_us(1);
+      if(wait-- <= 0){
+        I2C2_Init();
+        return;
+      }
+    }
   }
 
   I2C->CR2 |= I2C_CR2_STOP;
-  while (!(I2C->ISR & I2C_ISR_STOPF))
-    ;
+  wait = timeout;
+  while (!(I2C->ISR & I2C_ISR_STOPF)){
+      delay_us(1);
+      if(wait-- <= 0){
+        I2C2_Init();
+        return;
+      }
+  }
   I2C->ICR |= I2C_ICR_STOPCF;
 }

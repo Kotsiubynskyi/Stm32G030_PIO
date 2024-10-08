@@ -3,7 +3,11 @@
 
 #include "tm1650.h"
 #include "i2c.h"
-#include "stm32g030xx.h"
+
+#define STM32G030xx 
+#include "stm32g0xx.h"
+
+uint32_t SystemCoreClock;
 
 void SysTick_Init(void);
 void SystemClock_Config(void);

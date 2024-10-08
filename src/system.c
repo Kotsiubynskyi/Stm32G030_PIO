@@ -34,6 +34,111 @@ void SystemClock_Config(void) {
   SystemCoreClockUpdate();
 }
 
+const uint32_t AHBPrescTable[16];  /*!<  AHB prescalers table values */
+const uint32_t APBPrescTable[8];   /*!< APB prescalers table values */
+
+// #define READ_BIT(REG, BIT)    ((REG) & (BIT))
+
+#if !defined  (HSE_VALUE)
+#define HSE_VALUE    (8000000UL)    /*!< Value of the External oscillator in Hz */
+#endif /* HSE_VALUE */
+
+#if !defined  (HSI_VALUE)
+  #define HSI_VALUE  (16000000UL)   /*!< Value of the Internal oscillator in Hz*/
+#endif /* HSI_VALUE */
+
+#if !defined  (LSI_VALUE)
+ #define LSI_VALUE   (32000UL)     /*!< Value of LSI in Hz*/
+#endif /* LSI_VALUE */
+
+#if !defined  (LSE_VALUE)
+  #define LSE_VALUE  (32768UL)      /*!< Value of LSE in Hz*/
+#endif /* LSE_VALUE */
+
+
+/************************* Miscellaneous Configuration ************************/
+/* Note: Following vector table addresses must be defined in line with linker
+         configuration. */
+/*!< Uncomment the following line if you need to relocate the vector table
+     anywhere in Flash or Sram, else the vector table is kept at the automatic
+     remap of boot address selected */
+/* #define USER_VECT_TAB_ADDRESS */
+
+#if defined(USER_VECT_TAB_ADDRESS)
+/*!< Uncomment the following line if you need to relocate your vector Table
+     in Sram else user remap will be done in Flash. */
+/* #define VECT_TAB_SRAM */
+#if defined(VECT_TAB_SRAM)
+#define VECT_TAB_BASE_ADDRESS   SRAM_BASE       /*!< Vector Table base address field.
+                                                     This value must be a multiple of 0x200. */
+#define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
+                                                     This value must be a multiple of 0x200. */
+#else
+#define VECT_TAB_BASE_ADDRESS   FLASH_BASE      /*!< Vector Table base address field.
+                                                     This value must be a multiple of 0x200. */
+#define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
+                                                     This value must be a multiple of 0x200. */
+#endif /* VECT_TAB_SRAM */
+#endif /* USER_VECT_TAB_ADDRESS */
+
+// void SystemCoreClockUpdate(void)
+// {
+//   uint32_t tmp;
+//   uint32_t pllvco;
+//   uint32_t pllr;
+//   uint32_t pllsource;
+//   uint32_t pllm;
+//   uint32_t hsidiv;
+
+//   /* Get SYSCLK source -------------------------------------------------------*/
+//   switch (RCC->CFGR & RCC_CFGR_SWS)
+//   {
+//     case RCC_CFGR_SWS_0:                /* HSE used as system clock */
+//       SystemCoreClock = HSE_VALUE;
+//       break;
+
+//     case (RCC_CFGR_SWS_1 | RCC_CFGR_SWS_0):  /* LSI used as system clock */
+//       SystemCoreClock = LSI_VALUE;
+//       break;
+
+//     case RCC_CFGR_SWS_2:                /* LSE used as system clock */
+//       SystemCoreClock = LSE_VALUE;
+//       break;
+
+//     case RCC_CFGR_SWS_1:  /* PLL used as system clock */
+//       /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLLM) * PLLN
+//          SYSCLK = PLL_VCO / PLLR
+//          */
+//       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
+//       pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> RCC_PLLCFGR_PLLM_Pos) + 1UL;
+
+//       if(pllsource == 0x03UL)           /* HSE used as PLL clock source */
+//       {
+//         pllvco = (HSE_VALUE / pllm);
+//       }
+//       else                              /* HSI used as PLL clock source */
+//       {
+//           pllvco = (HSI_VALUE / pllm);
+//       }
+//       pllvco = pllvco * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos);
+//       pllr = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos) + 1UL);
+
+//       SystemCoreClock = pllvco/pllr;
+//       break;
+      
+//     case 0x00000000U:                   /* HSI used as system clock */
+//     default:                            /* HSI used as system clock */
+//       hsidiv = (1UL << ((READ_BIT(RCC->CR, RCC_CR_HSIDIV))>> RCC_CR_HSIDIV_Pos));
+//       SystemCoreClock = (HSI_VALUE/hsidiv);
+//       break;
+//   }
+//   /* Compute HCLK clock frequency --------------------------------------------*/
+//   /* Get HCLK prescaler */
+//   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos)];
+//   /* HCLK clock frequency */
+//   SystemCoreClock >>= tmp;
+// }
+
 void UART2_Init(void) {
   // USART_TypeDef *uart1 = USART2;
   //  Enable clock for GPIOA and USART2

@@ -10,6 +10,10 @@
         "type_traits": "c",
         "system.h": "c",
         "stdint.h": "c",
-        "core_cm0plus.h": "c"
+        "core_cm0plus.h": "c",
+        "system_stm32g0xx.h": "c",
+        "stm32g0xx.h": "c",
+        "cstdint": "c",
+        "stm32g041xx.h": "c"
     }
 }
