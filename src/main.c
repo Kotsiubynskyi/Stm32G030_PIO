@@ -17,39 +17,17 @@ int main(void)
     tm1650_sendSymbol(0, 0b01000111);
     tm1650_sendSymbol(1, 0b01000111);
     tm1650_sendSymbol(2, 0b01000111);
-    // tm1650_setBrightness(1);
-    // PA4_Reset();
     delay_ms(150);
-    // tm1650_sendSymbol(0, 0b00001111);
     tm1650_sendSymbol(1, 0b01111011);
     tm1650_sendSymbol(2, 0b01111011);
-    // tm1650_setBrightness(5);
-    // PA4_Set();
     delay_ms(150);
-
-    // tm1650_sendSymbol(0, 0b01110010);
     tm1650_sendSymbol(1, 0b0111111);
     tm1650_sendSymbol(2, 0b0111111);
-    // tm1650_setBrightness(5);
-    // PA4_Set();
     delay_ms(150);
 
-    // tm1650_sendSymbol(0, 0b00001111);
     tm1650_sendSymbol(1, 0b01111111);
     tm1650_sendSymbol(2, 0b01111111);
-    // tm1650_setBrightness(5);
-    // PA4_Set();
     delay_ms(150);
-
-    // PA4_Set();
-    // tm1650_setBrightness(1);
-    // tm1650_clearDisplay();
-
-    // delay_ms(1000);
-    // tm1650_sendText("324");
-    // tm1650_highlight();
-    // PA4_Reset();
-    // tm1650_sendTextMoving("Hello  boy   ", 450);
   }
 }
 

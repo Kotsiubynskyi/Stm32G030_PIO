@@ -34,8 +34,8 @@ void SystemClock_Config(void) {
   SystemCoreClockUpdate();
 }
 
-const uint32_t AHBPrescTable[16];  /*!<  AHB prescalers table values */
-const uint32_t APBPrescTable[8];   /*!< APB prescalers table values */
+// uint32_t AHBPrescTable[16UL] = {0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 1UL, 2UL, 3UL, 4UL, 6UL, 7UL, 8UL, 9UL};
+// uint32_t APBPrescTable[8UL] =  {0UL, 0UL, 0UL, 0UL, 1UL, 2UL, 3UL, 4UL};
 
 // #define READ_BIT(REG, BIT)    ((REG) & (BIT))
 
